@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css">
+    <title>My Account</title>
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo-container">
+            <a href="index.html"><img src="images/home/logo.png" alt="Logo" onerror="this.src='https://via.placeholder.com/150x50?text=LOGO'"></a>
+        </div>
+        <div class="menu-btn active" onclick="showPage('info', this)">Information</div>
+        <div class="menu-btn" onclick="showPage('security', this)">Security</div>
+    </nav>
+
+    <div class="main-container">
+        <div class="content">
+            <div id="info" class="page-section active">
+                <h2>Information</h2>
+                <div class="account-form">
+                    <div class="form-group-item"><label>Full Name</label><input type="text" value="Admin"></div>
+                    <div class="form-group-item"><label>Email</label><input type="email" value="admin@shop.com"></div>
+                    <button class="save-btn">Update</button>
+                </div>
+            </div>
+
+            <div id="security" class="page-section">
+                <h2>Security</h2>
+                <div class="account-form">
+                    <div class="form-group-item"><label>New Password</label><input type="password"></div>
+                    <div class="form-group-item"><label>Confirm Password</label><input type="password"></div>
+                    <button class="save-btn">Change Password</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showPage(id, btn) {
+            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+    </script>
+</body>
+</html>

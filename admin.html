@@ -2,274 +2,80 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <style>
-        /* --- BASIC SETUP --- */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-            height: 100vh;
-        }
-
-        /* --- SIDEBAR --- */
-        .sidebar {
-            width: 250px;
-            background-color: #FE980F; /* Sidebar background color */
-            border-right: 1px solid #000; /* Thin 1px border */
-            display: flex;
-            flex-direction: column;
-            padding: 10px;
-            z-index: 10;
-        }
-
-        .menu-btn {
-            background: #fff;
-            border: 1px solid #000;
-            padding: 15px;
-            margin-bottom: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase;
-            text-align: center;
-            transition: 0.2s;
-        }
-
-        .menu-btn.active {
-            background-color: #333;
-            color: #FE980F;
-            border-color: #333;
-        }
-
-        /* --- MAIN CONTAINER --- */
-        .main-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* --- HEADER (Admin & Dropdown on the RIGHT) --- */
-        header {
-            height: 60px;
-            border-bottom: 1px solid #000; /* Thin border */
-            display: flex;
-            align-items: center;
-            justify-content: flex-end; /* Keep Admin on the right */
-            padding: 0 20px;
-            background-color: #fff;
-        }
-
-        .user-menu-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            padding: 5px 10px;
-            border-radius: 4px;
-        }
-
-        /* Avatar circle for your image */
-        .avatar-circle {
-            width: 35px;
-            height: 35px;
-            border: 1px solid #000; /* Thin 1px border */
-            border-radius: 50%;
-            margin-right: 10px;
-            overflow: hidden;
-            background-color: #eee;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .avatar-circle img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .username {
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        /* Dropdown Menu */
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            top: 100%;
-            right: 0; /* Align dropdown to the right edge */
-            background-color: #fff;
-            min-width: 120px;
-            box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
-            border: 1px solid #000;
-            z-index: 100;
-            margin-top: 5px;
-        }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            font-size: 14px;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #FE980F;
-            color: white;
-        }
-
-        .show { display: block; }
-
-        /* --- CONTENT AREA --- */
-        .content { padding: 30px; overflow-y: auto; }
-        .page-section { display: none; }
-        .page-section.active { display: block; }
-
-        /* Overview Stat Boxes */
-        .stats-container { display: flex; gap: 20px; }
-        .stat-box { 
-            border: 1px solid #000; 
-            padding: 30px; 
-            flex: 1; 
-            text-align: center; 
-            box-shadow: 3px 3px 0px #FE980F; 
-        }
-        .stat-number { font-size: 36px; font-weight: bold; color: #FE980F; display: block; margin-top: 10px;}
-
-        /* Tables & Forms */
-        table { width: 100%; border-collapse: collapse; border: 1px solid #000; margin-top: 20px; }
-        th, td { border: 1px solid #000; padding: 12px; text-align: left; }
-        th { background-color: #FE980F; color: #fff; }
-        
-        .form-group { border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; background: #fafafa; }
-        input, select { padding: 10px; border: 1px solid #000; margin-right: 10px; }
-        .action-btn { padding: 10px 20px; background: #333; color: white; border: none; cursor: pointer; }
-
-        h2 { border-bottom: 2px solid #FE980F; display: inline-block; padding-bottom: 5px; margin-top: 0; }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Admin Panel</title>
 </head>
 <body>
-
     <nav class="sidebar">
+        <div class="logo-container">
+            <a href="index.html"><img src="images/home/logo.png" alt="Logo" onerror="this.src='https://via.placeholder.com/150x50?text=LOGO'"></a>
+        </div>
         <div class="menu-btn active" onclick="showPage('overview', this)">OVERVIEW</div>
         <div class="menu-btn" onclick="showPage('product', this)">PRODUCT</div>
         <div class="menu-btn" onclick="showPage('order', this)">ORDER</div>
-        <div class="menu-btn" onclick="showPage('account', this)">ACCOUNT</div>
+        <div class="menu-btn" onclick="showPage('account-list', this)">ACCOUNTS</div>
     </nav>
 
     <div class="main-container">
         <header>
             <div class="user-menu-container" onclick="toggleDropdown()">
-                <div class="avatar-circle">
-                    <img src="https://via.placeholder.com/150" alt="Admin Avatar">
-                </div>
+                <div class="avatar-circle"><img src="https://via.placeholder.com/150" alt="Avatar"></div>
                 <span class="username">admin ▼</span>
-                
                 <div id="myDropdown" class="dropdown-content">
-                    <a href="login.html" onclick="logout()">Sign out</a>
+                    <a href="account.html">My Profile</a>
+                    <a href="#" onclick="alert('Signed out')">Sign out</a>
                 </div>
             </div>
         </header>
 
         <div class="content">
             <div id="overview" class="page-section active">
-                <h2>Dashboard Overview</h2>
+                <h2>Overview</h2>
                 <div class="stats-container">
                     <div class="stat-box">Total Products <span class="stat-number">120</span></div>
-                    <div class="stat-box">New Orders <span class="stat-number">15</span></div>
-                    <div class="stat-box">Total Accounts <span class="stat-number">4</span></div>
+                    <div class="stat-box">Total Orders <span class="stat-number">15</span></div>
                 </div>
             </div>
 
             <div id="product" class="page-section">
-                <h2>Product Management</h2>
+                <h2>Products</h2>
                 <div class="form-group">
-                    <h3>Add Product</h3>
-                    <input type="text" placeholder="Product name">
+                    <input type="text" placeholder="Product Name">
                     <input type="number" placeholder="Price">
-                    <button class="action-btn">Save</button>
+                    <button class="action-btn">Add Product</button>
                 </div>
                 <table>
-                    <thead>
-                        <tr><th>ID</th><th>Name</th><th>Price</th><th>Status</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>#001</td><td>Admin T-Shirt</td><td>$20</td><td>In Stock</td></tr>
-                    </tbody>
+                    <tr><th>ID</th><th>Name</th><th>Price</th></tr>
+                    <tr><td>#01</td><td>Sample T-Shirt</td><td>$20</td></tr>
                 </table>
             </div>
 
             <div id="order" class="page-section">
-                <h2>Order Management</h2>
+                <h2>Orders</h2>
                 <table>
-                    <thead>
-                        <tr><th>Order ID</th><th>Customer</th><th>Method</th><th>Action</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>#ORD01</td>
-                            <td>John Doe</td>
-                            <td id="pay-01">Cash</td>
-                            <td><button class="action-btn" onclick="editPayment('pay-01')">Edit</button></td>
-                        </tr>
-                    </tbody>
+                    <tr><th>ID</th><th>Customer</th><th>Method</th></tr>
+                    <tr><td>#ORD01</td><td>John Doe</td><td>Cash</td></tr>
                 </table>
             </div>
 
-            <div id="account" class="page-section">
-                <h2>Account Management</h2>
+            <div id="account-list" class="page-section">
+                <h2>Staff Accounts</h2>
                 <table>
-                    <thead>
-                        <tr><th>ID</th><th>Username</th><th>Role</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>1</td><td>admin</td><td>Super Admin</td></tr>
-                        <tr><td>2</td><td>staff_01</td><td>Editor</td></tr>
-                    </tbody>
+                    <tr><th>ID</th><th>Username</th><th>Role</th></tr>
+                    <tr><td>1</td><td>admin</td><td>Admin</td></tr>
                 </table>
             </div>
         </div>
     </div>
 
     <script>
-        // Switch tabs
-        function showPage(pageId, btnElement) {
+        function showPage(id, btn) {
             document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
+            document.getElementById(id).classList.add('active');
             document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
-            btnElement.classList.add('active');
+            btn.classList.add('active');
         }
-
-        // Toggle Admin Dropdown
-        function toggleDropdown() {
-            document.getElementById("myDropdown").classList.toggle("show");
-        }
-
-        // Close dropdown when clicking outside
-        window.onclick = function(event) {
-            if (!event.target.closest('.user-menu-container')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                for (var i = 0; i < dropdowns.length; i++) {
-                    if (dropdowns[i].classList.contains('show')) {
-                        dropdowns[i].classList.remove('show');
-                    }
-                }
-            }
-        }
-
-        function editPayment(id) {
-            let val = prompt("New payment method:", document.getElementById(id).innerText);
-            if (val) document.getElementById(id).innerText = val;
-        }
-
-        function logout() {
-            alert("Signing out...");
-            // You can add redirect logic here: window.location.href = 'login.html';
-        }
+        function toggleDropdown() { document.getElementById("myDropdown").classList.toggle("show"); }
     </script>
 </body>
 </html>

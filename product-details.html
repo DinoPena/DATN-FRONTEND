@@ -2,41 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Product Details | TCD Audio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <title>Shop</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/prettyPhoto.css" rel="stylesheet">
-    <link href="css/price-range.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
 	<link href="css/main.css" rel="stylesheet">
-	<link href="css/responsive.css" rel="stylesheet">
-    <!--[if lt IE 9]>
-    <script src="js/html5shiv.js"></script>
-    <script src="js/respond.min.js"></script>
-    <![endif]-->
-</head><!--/head-->
+	<link href="css/responsive.css" rel="stylesheet">    
+</head>
 
 <body>
-	<header id="header"><!--header-->
+	<header id="header"><!--header-->		
 		<div class="header-middle"><!--header-middle-->
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
 							<a href="index.html"><img src="images/home/logo.png" alt="" /></a>
-						</div>
+						</div>						
 					</div>
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href=""><i class="fa fa-user"></i> Account</a></li>
-								<li><a href=""><i class="fa fa-star"></i> Notify</a></li>
-								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+								<li><a href="account.html"><i class="fa fa-user"></i> Account</a></li>
 								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-								<li><a href="login.html"><i class="fa fa-lock"></i> Login</a></li>
+								<li><a href="login.html" class="active"><i class="fa fa-lock"></i> Login</a></li>
+								<li><a href="login.html" ><i class="fa fa-unlock"></i> Log Out</a></li>
 							</ul>
 						</div>
 					</div>
@@ -59,28 +51,26 @@
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
 								<li><a href="index.html">Home</a></li>
-								<li class="dropdown"><a href="#">Store<i class="fa fa-angle-down"></i></a>
+								<li class="dropdown"><a href="#" class="active">Store<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.html">Products</a></li>
-										<li><a href="product-details.html" class="active">Product Details</a></li> 
-										<li><a href="checkout.html">Checkout</a></li> 
-										<li><a href="cart.html">Cart</a></li>
+                                        <li><a href="shop.html" class="active">Products</a></li>
+										<li><a onclick="createOrder()" href="cart.html">Cart</a></li>
                                     </ul>
-                                </li> 
+                                </li>
 								<li><a href="contact-us.html">Contact</a></li>
 							</ul>
 						</div>
 					</div>
 					<div class="col-sm-3">
 						<div class="search_box pull-right">
-							<input type="text" placeholder="Search"/>
+							<input type="text" id="search-input" placeholder="Search products..." onkeypress="handleSearch(event)"/>
 						</div>
 					</div>
 				</div>
+				</div>
 			</div>
-		</div><!--/header-bottom-->
-	</header><!--/header-->
-	
+	</header>
+		
 	<section>
 		<div class="container">
 			<div class="row">
@@ -90,78 +80,28 @@
 						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
-											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-											Speaker
-										</a>
-									</h4>
-								</div>
-								<div id="sportswear" class="panel-collapse collapse">
-									<div class="panel-body">
-										<ul>
-											<li><a href="#">Ceiling Speaker</a></li>
-											<li><a href="#">Music Speaker </a></li>
-											<li><a href="#">Karaoke Speaker</a></li>
-											<li><a href="#">Computer Speaker</a></li>
-											<li><a href="#">Tall Speaker </a></li>
-										</ul>
-									</div>
+									<h4 class="panel-title"><a href="shop.html?category=speaker">Speaker</a></h4>										
 								</div>
 							</div>
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordian" href="#mens">
-											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-										    Amplifier
-										</a>
-									</h4>
-								</div>
-								<div id="mens" class="panel-collapse collapse">
-									<div class="panel-body">
-										<ul>
-											<li><a href="#"> Music Amplifier </a></li>
-											<li><a href="#"> Karaoke Amplifier </a></li>
-											<li><a href="#"> Theater Amplifier </a></li>
-											<li><a href="#"> Noise Cancel Amplifier </a></li>
-											<li><a href="#"> Bluetooth Amplifier </a></li>
-										</ul>
-									</div>
+									<h4 class="panel-title"><a href="shop.html?category=amplifier">Amplifier</a></h4>
 								</div>
 							</div>
 							
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordian" href="#womens">
-											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-											Micro
-										</a>
-									</h4>
-								</div>
-								<div id="womens" class="panel-collapse collapse">
-									<div class="panel-body">
-										<ul>
-											<li><a href="#">Wireless Microphone</a></li>
-											<li><a href="#">Wire Microphone</a></li>
-										</ul>
-									</div>
+									<h4 class="panel-title"><a href="shop.html?category=microphone">Micro</a></h4>
 								</div>
 							</div>
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Noise Filter</a></h4>
+									<h4 class="panel-title"><a href="shop.html?category=noise-filter">Noise Filter</a></h4>
 								</div>
 							</div>
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Disc Player</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Accessories</a></h4>
+									<h4 class="panel-title"><a href="shop.html?category=accessories">Accessories</a></h4>
 								</div>
 							</div>
 						</div><!--/category-products-->
@@ -170,371 +110,57 @@
 							<h2>Brands</h2>
 							<div class="brands-name">
 								<ul class="nav nav-pills nav-stacked">
-									<li><a href="#"> <span class="pull-right">(50)</span>BMB</a></li>
-									<li><a href="#"> <span class="pull-right">(56)</span>Bose</a></li>
-									<li><a href="#"> <span class="pull-right">(27)</span>Jaguar</a></li>
-									<li><a href="#"> <span class="pull-right">(32)</span>VA Entertainment</a></li>
-									<li><a href="#"> <span class="pull-right">(29)</span>Mirage</a></li>
-									<li><a href="#"> <span class="pull-right">(15)</span>JBL</a></li>
-									<li><a href="#"> <span class="pull-right">(10)</span>Tanoy</a></li>
+									<li><a href="shop.html?brand=JBL">JBL</a></li>
+									<li><a href="shop.html?brand=Bose">Bose</a></li>
+									<li><a href="shop.html?brand=BMB">BMB</a></li>
+									<li><a href="shop.html?brand=VA Entertainment">VA Entertainment</a></li>
 								</ul>
 							</div>
 						</div><!--/brands_products-->
 						
-						<div class="price-range"><!--price-range-->
-							<h2>Price Range</h2>
-							<div class="well text-center">
-								 <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="10000000" data-slider-step="500000" data-slider-value="[2500000,7500000]" id="sl2" ><br />
-								 <b class="pull-left">0 VND</b> <b class="pull-right">10.000.000 VND</b>
-							</div>
-						</div><!--/price-range-->
-						
 						<div class="shipping text-center"><!--shipping-->
 							<img src="images/home/shipping.jpg" alt="" />
-						</div><!--/shipping-->
-					
+						</div><!--/shipping-->					
 					</div>
-				</div>
+				</div>	
 				
 				<div class="col-sm-9 padding-right">
-					<div class="product-details"><!--product-details-->
-						<div class="col-sm-5">
-							<div class="view-product">
-								<img src="images/product-details/1.jpg" alt="" />
-								<h3>ZOOM</h3>
-							</div>
-							<div id="similar-product" class="carousel slide" data-ride="carousel">
-								
-								  <!-- Wrapper for slides -->
-								    <div class="carousel-inner">
-										<div class="item active">
-										  <a href=""><img src="images/product-details/similar1.jpg" alt=""></a>
-										  <a href=""><img src="images/product-details/similar2.jpg" alt=""></a>
-										  <a href=""><img src="images/product-details/similar3.jpg" alt=""></a>
-										</div>
-										<div class="item">
-										  <a href=""><img src="images/product-details/similar1.jpg" alt=""></a>
-										  <a href=""><img src="images/product-details/similar2.jpg" alt=""></a>
-										  <a href=""><img src="images/product-details/similar3.jpg" alt=""></a>
-										</div>
-									</div>
+					<div class="product-details">
+          <div class="col-sm-5">
+            <div class="view-product">
+              <img id="product-image" src="" alt="">
+              <h3>ZOOM</h3>
+            </div>
+          </div>
 
-								  <!-- Controls -->
-								  <a class="left item-control" href="#similar-product" data-slide="prev">
-									<i class="fa fa-angle-left"></i>
-								  </a>
-								  <a class="right item-control" href="#similar-product" data-slide="next">
-									<i class="fa fa-angle-right"></i>
-								  </a>
-							</div>
+          <div class="col-sm-7">
+            <div class="product-information">
+              <img src="images/product-details/new.jpg" class="newarrival" alt="">
+              <h2 id="product-name"></h2>
+              <img src="images/product-details/rating.png" alt="">
 
-						</div>
-						<div class="col-sm-7">
-							<div class="product-information"><!--/product-information-->
-								<img src="images/product-details/new.jpg" class="newarrival" alt="" />
-								<h2>Music Speaker JBL</h2>								
-								<img src="images/product-details/rating.png" alt="" />
-								<span>
-									<span>1.000.000 VND</span>
-									<label>Quantity:</label>
-									<input type="text" value="1" />
-								</span>
-								<button type="button" class="btn btn-fefault cart">
-									<i class="fa fa-shopping-cart"></i>
-										Add to cart
-								</button>
-								<p><b>Availability:</b> In Stock</p>
-								<p><b>Condition:</b> New</p>
-								<p><b>Brand:</b> JBL</p>								
-							</div><!--/product-information-->
-						</div>
-					</div><!--/product-details-->
-					
-					<div class="category-tab shop-details-tab"><!--category-tab-->
-						<div class="col-sm-12">
-							<ul class="nav nav-tabs">
-								<li><a href="#details" data-toggle="tab">Details</a></li>
-								<li><a href="#companyprofile" data-toggle="tab">Company Profile</a></li>
-								<li><a href="#tag" data-toggle="tab">Tag</a></li>
-								<li class="active"><a href="#reviews" data-toggle="tab">Reviews (5)</a></li>
-							</ul>
-						</div>
-						<div class="tab-content">
-							<div class="tab-pane fade" id="details" >
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery1.jpg" alt="" />
-												<h2>1.000.000 VND</h2>
-												<p>Music Speaker JBL</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery2.jpg" alt="" />
-												<h2>1.000.000 VND</h2>
-												<p>Music Speaker JBL</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery3.jpg" alt="" />
-												<h2>1.000.000 VND</h2>
-												<p>Music Speaker JBL</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery4.jpg" alt="" />
-												<h2>1.000.000 VND</h2>
-												<p>Music Speaker JBL</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							
-							<div class="tab-pane fade" id="companyprofile" >
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery1.jpg" alt="" />
-												<h2>1.000.000 VND</h2>
-												<p>Music Speaker JBL</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery3.jpg" alt="" />
-												<h2>1.000.000 VND</h2>
-												<p>Music Speaker JBL</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery2.jpg" alt="" />
-												<h2>1.000.000 VND</h2>
-												<p>Music Speaker JBL</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery4.jpg" alt="" />
-												<h2>1.000.000 VND</h2>
-												<p>Music Speaker JBL</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							
-							<div class="tab-pane fade" id="tag" >
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery1.jpg" alt="" />
-												<h2>1.000.000 VND</h2>
-												<p>Music Speaker JBL</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery2.jpg" alt="" />
-												<h2>1.000.000 VND</h2>
-												<p>Music Speaker JBL</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery3.jpg" alt="" />
-												<h2>1.000.000 VND</h2>
-												<p>Music Speaker JBL</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/gallery4.jpg" alt="" />
-												<h2>1.000.000 VND</h2>
-												<p>Music Speaker JBL</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							
-							<div class="tab-pane fade active in" id="reviews" >
-								<div class="col-sm-12">
-									<ul>
-										<li><a href=""><i class="fa fa-user"></i>EUGEN</a></li>
-										<li><a href=""><i class="fa fa-clock-o"></i>12:41 PM</a></li>
-										<li><a href=""><i class="fa fa-calendar-o"></i>31 DEC 2014</a></li>
-									</ul>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-									<p><b>Write Your Review</b></p>
-									
-									<form action="#">
-										<span>
-											<input type="text" placeholder="Your Name"/>
-											<input type="email" placeholder="Email Address"/>
-										</span>
-										<textarea name="" ></textarea>
-										<b>Rating: </b> <img src="images/product-details/rating.png" alt="" />
-										<button type="button" class="btn btn-default pull-right">
-											Submit
-										</button>
-									</form>
-								</div>
-							</div>
-							
-						</div>
-					</div><!--/category-tab-->
-					
-					<div class="recommended_items"><!--recommended_items-->
-						<h2 class="title text-center">recommended items</h2>
-						
-						<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
-							<div class="carousel-inner">
-								<div class="item active">	
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend1.jpg" alt="" />
-													<h2>1.000.000 VND</h2>
-													<p>Music Speaker JBL</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend2.jpg" alt="" />
-													<h2>1.000.000 VND</h2>
-													<p>Music Speaker JBL</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend3.jpg" alt="" />
-													<h2>1.000.000 VND</h2>
-													<p>Music Speaker JBL</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="item">	
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend1.jpg" alt="" />
-													<h2>1.000.000 VND</h2>
-													<p>Music Speaker JBL</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend2.jpg" alt="" />
-													<h2>1.000.000 VND</h2>
-													<p>Music Speaker JBL</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend3.jpg" alt="" />
-													<h2>1.000.000 VND</h2>
-													<p>Music Speaker JBL</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							 <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
-								<i class="fa fa-angle-left"></i>
-							  </a>
-							  <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
-								<i class="fa fa-angle-right"></i>
-							  </a>			
-						</div>
-					</div><!--/recommended_items-->
-					
-				</div>
-			</div>
-		</div>
-	</section>
+              <span>
+                <span id="product-price"></span>
+                <label>Quantity:</label>
+                <input type="number" id="product-qty" value="1" min="1">
+              </span>
+
+              <button type="button" class="btn btn-default cart" onclick="addToCartFromDetail()">
+                <i class="fa fa-shopping-cart"></i>
+                Add to cart
+              </button>
+
+              <p><b>Availability:</b> In Stock</p>
+              <p><b>Condition:</b> New</p>
+              <p><b>Brand:</b> <span id="product-brand"></span></p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
 	
 	<footer id="footer"><!--Footer-->
 		<div class="footer-top">
@@ -544,73 +170,6 @@
 						<div class="companyinfo">
 							<h2><span>TCD</span>-Audio</h2>
 							<p>Your vibrant and lovely sound world.</p>
-						</div>
-					</div>
-					<div class="col-sm-7">
-						<div class="col-sm-3">
-							<div class="video-gallery text-center">
-								<a href="#">
-									<div class="iframe-img">
-										<!--<img src="images/home/iframe1.png" alt="" />-->
-									</div>
-									<div class="overlay-icon">
-										<i class="fa fa-play-circle-o"></i>
-									</div>
-								</a>
-								<p>Event 1</p>
-								<h2>DD/MM/2025</h2>
-							</div>
-						</div>
-						
-						<div class="col-sm-3">
-							<div class="video-gallery text-center">
-								<a href="#">
-									<div class="iframe-img">
-										<!--<img src="images/home/iframe2.png" alt="" />-->
-									</div>
-									<div class="overlay-icon">
-										<i class="fa fa-play-circle-o"></i>
-									</div>
-								</a>
-								<p>Event 2</p>
-								<h2>DD/MM/2025</h2>
-							</div>
-						</div>
-						
-						<div class="col-sm-3">
-							<div class="video-gallery text-center">
-								<a href="#">
-									<div class="iframe-img">
-										<!--<img src="images/home/iframe3.png" alt="" />-->
-									</div>
-									<div class="overlay-icon">
-										<i class="fa fa-play-circle-o"></i>
-									</div>
-								</a>
-								<p>Event 3</p>
-								<h2>DD/MM/2025</h2>
-							</div>
-						</div>
-						
-						<div class="col-sm-3">
-							<div class="video-gallery text-center">
-								<a href="#">
-									<div class="iframe-img">
-										<!--<img src="images/home/iframe4.png" alt="" />-->
-									</div>
-									<div class="overlay-icon">
-										<i class="fa fa-play-circle-o"></i>
-									</div>
-								</a>
-								<p>Event 4</p>
-								<h2>DD/MM/2025</h2>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-3">
-						<div class="address">
-							<img src="images/home/map.png" alt="" />
-							<p>Ba Đình District, Ha Noi, Viet Nam</p>
 						</div>
 					</div>
 				</div>
@@ -626,8 +185,7 @@
 							<ul class="nav nav-pills nav-stacked">
 								<li><a href="#">Online Help</a></li>
 								<li><a href="#">Contact Us</a></li>
-								<li><a href="#">Order Status</a></li>
-								<li><a href="#">Change Location</a></li>
+								<li><a href="#">Order</a></li>
 								<li><a href="#">FAQ’s</a></li>
 							</ul>
 						</div>
@@ -639,7 +197,7 @@
 								<li><a href="#">Speaker</a></li>
 								<li><a href="#">Micro</a></li>
 								<li><a href="#">Amplifier</a></li>
-								<li><a href="#">Disc Player</a></li>
+								<li><a href="#">Noise Filter</a></li>
 								<li><a href="#">Accessories</a></li>
 							</ul>
 						</div>
@@ -651,8 +209,6 @@
 								<li><a href="#">Terms of Use</a></li>
 								<li><a href="#">Privecy Policy</a></li>
 								<li><a href="#">Refund Policy</a></li>
-								<li><a href="#">Billing System</a></li>
-								<li><a href="#">Ticket System</a></li>
 							</ul>
 						</div>
 					</div>
@@ -661,9 +217,6 @@
 							<h2>About Shopper</h2>
 							<ul class="nav nav-pills nav-stacked">
 								<li><a href="#">Company Information</a></li>
-								<li><a href="#">Careers</a></li>
-								<li><a href="#">Store Location</a></li>
-								<li><a href="#">Affillate Program</a></li>
 								<li><a href="#">Copyright</a></li>
 							</ul>
 						</div>
@@ -682,7 +235,6 @@
 				</div>
 			</div>
 		</div>
-						
 	</footer><!--/Footer-->
 	
 
@@ -693,5 +245,78 @@
 	<script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.prettyPhoto.js"></script>
     <script src="js/main.js"></script>
+	<script>
+		let currentProduct = null;
+
+		// 🔒 CHẶN CHƯA LOGIN
+		if (!localStorage.getItem("token")) {
+			alert("Please login to view product details");
+			window.location.href = "login.html";
+		}
+
+		function getProductId() {
+			const params = new URLSearchParams(window.location.search);
+			return params.get("id");
+		}
+
+		async function loadProductDetail() {
+			const id = getProductId();
+			if (!id) {
+			alert("Product not found");
+			return;
+			}
+
+			try {
+			const res = await fetch(`http://localhost:3000/api/products/${id}`);
+			const product = await res.json();
+
+			if (!res.ok) {
+				alert(product.message || "Cannot load product");
+				return;
+			}
+
+			currentProduct = product;
+
+			document.getElementById("product-image").src =
+				product.image || "images/shop/product1.jpg";
+
+			document.getElementById("product-name").innerText = product.name;
+			document.getElementById("product-price").innerText =
+				product.price.toLocaleString() + " VND";
+			document.getElementById("product-brand").innerText =
+				product.brand || "Unknown";
+
+			} catch (err) {
+			alert("Server error");
+			}
+		}
+
+		function addToCartFromDetail() {
+			const qty = Number(document.getElementById("product-qty").value);
+
+			if (!currentProduct) return;
+
+			let cart = getCart();
+
+			const index = cart.findIndex(p => p._id === currentProduct._id);
+
+			if (index !== -1) {
+			cart[index].quantity += qty;
+			} else {
+			cart.push({
+				_id: currentProduct._id,
+				name: currentProduct.name,
+				price: currentProduct.price,
+				image: currentProduct.image || "images/shop/product1.jpg",
+				quantity: qty
+			});
+			}
+
+			saveCart(cart);
+			alert("Added to cart successfully");
+		}
+
+		document.addEventListener("DOMContentLoaded", loadProductDetail);
+	</script>
 </body>
 </html>
