@@ -13,7 +13,8 @@
         <div class="menu-btn active" onclick="showPage('overview', this)">OVERVIEW</div>
         <div class="menu-btn" onclick="showPage('product', this)">PRODUCT</div>
         <div class="menu-btn" onclick="showPage('order', this)">ORDER</div>
-        <div class="menu-btn" onclick="showPage('account-list', this)">ACCOUNTS</div>
+        <div class="menu-btn" onclick="showPage('account-list', this)">ACCOUNT</div>
+        <div class="menu-btn" onclick="showPage('message', this)">MESSAGES</div>
     </nav>
 
     <div class="main-container">
@@ -23,7 +24,7 @@
                 <span class="username">admin ▼</span>
                 <div id="myDropdown" class="dropdown-content">
                     <a href="account.html">My Profile</a>
-                    <a href="#" onclick="alert('Signed out')">Sign out</a>
+                    <a href="#" onclick="alert('Signed out')"><i class="fa fa-unlock"></i>Sign out</a>
                 </div>
             </div>
         </header>
@@ -31,40 +32,105 @@
         <div class="content">
             <div id="overview" class="page-section active">
                 <h2>Overview</h2>
+
                 <div class="stats-container">
-                    <div class="stat-box">Total Products <span class="stat-number">120</span></div>
-                    <div class="stat-box">Total Orders <span class="stat-number">15</span></div>
+                    <div class="stat-box">
+                    Total Products <span id="total-products" class="stat-number">0</span>
+                    </div>
+
+                    <div class="stat-box">
+                    Total Orders <span id="total-orders" class="stat-number">0</span>
+                    </div>
+
+                    <div class="stat-box">
+                    Accounts <span id="total-users" class="stat-number">0</span>
+                    </div>
                 </div>
             </div>
 
             <div id="product" class="page-section">
                 <h2>Products</h2>
-                <div class="form-group">
-                    <input type="text" placeholder="Product Name">
-                    <input type="number" placeholder="Price">
-                    <button class="action-btn">Add Product</button>
+
+                <div class="form-group" width="100%">
+                    <input type="hidden" id="productId">
+
+                    <input type="text" id="name" placeholder="Product Name">
+                    <input type="text" id="category" placeholder="Category">
+                    <input type="text" id="brand" placeholder="Brand">
+                    <input type="number" id="stock" placeholder="Stock">
+                    <input type="number" id="price" placeholder="Price">
+                    <input type="text" id="image" placeholder="Image link">
+                    <img id="imagePreview" src="" alt="Preview" style="display:none;margin-top:8px;width:120px;height:120px;object-fit:cover;border:1px solid #ccc;">
+                    <button class="action-btn" id="submitBtn">Add Product</button>
                 </div>
-                <table>
-                    <tr><th>ID</th><th>Name</th><th>Price</th></tr>
-                    <tr><td>#01</td><td>Sample T-Shirt</td><td>$20</td></tr>
+
+                <table border="1" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Brand</th>
+                            <th>Stock</th>
+                            <th>Price</th>
+                            <th>Image</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productTableBody">
+                        <!-- JS render -->
+                    </tbody>
                 </table>
             </div>
 
             <div id="order" class="page-section">
                 <h2>Orders</h2>
-                <table>
-                    <tr><th>ID</th><th>Customer</th><th>Method</th></tr>
-                    <tr><td>#ORD01</td><td>John Doe</td><td>Cash</td></tr>
+                <table border="1" width="100%">
+                    <thead>
+                    <tr>                        
+                        <th>User</th>
+                        <th>Items</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Created At</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="orderTableBody">
+                    <!-- JS render -->
+                    </tbody>
                 </table>
             </div>
 
             <div id="account-list" class="page-section">
-                <h2>Staff Accounts</h2>
+                <h2>Accounts</h2>
                 <table>
-                    <tr><th>ID</th><th>Username</th><th>Role</th></tr>
-                    <tr><td>1</td><td>admin</td><td>Admin</td></tr>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody"></tbody>
                 </table>
             </div>
+
+            <div id="message" class="page-section">
+                <h2>Messages</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Received At</th>
+                            <th>Message</th>
+                        </tr>
+                    </thead>
+                    <tbody id="messageTableBody"></tbody>
+                </table>
+            </div>    
         </div>
     </div>
 
@@ -77,5 +143,7 @@
         }
         function toggleDropdown() { document.getElementById("myDropdown").classList.toggle("show"); }
     </script>
+    <script src="js/admin.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>

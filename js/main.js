@@ -17,19 +17,26 @@ function logout() {
 
 // ================= API HELPER =================
 async function apiFetch(url, options = {}) {
-  const headers = {
-    "Content-Type": "application/json"
-  };
-
+  const headers = { "Content-Type": "application/json" };
   const token = getToken();
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
+  if (token) headers.Authorization = `Bearer ${token}`;
 
   const res = await fetch(API_BASE_URL + url, {
     ...options,
     headers
   });
+
+  if (res.status === 403) {
+    alert("Tài khoản đã bị khóa");
+    localStorage.clear();
+    window.location.href = "login.html";
+    throw new Error("ACCOUNT_BLOCKED"); // ✅ QUAN TRỌNG
+  }
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.message || "API error");
+  }
 
   return res.json();
 }
@@ -44,124 +51,82 @@ function handleSearch(e) {
   window.location.href = `shop.html?search=${encodeURIComponent(keyword)}`;
 }
 
-// ================= AUTH =================
-async function login() {
-  const email = document.getElementById("login-email").value;
-  const password = document.getElementById("login-password").value;
-
-  const res = await apiFetch("/auth/login", {
-    method: "POST",
-    body: JSON.stringify({ email, password })
-  });
-
-  if (res.token) {
-    saveToken(res.token);
-    alert("Login successful");
-    window.location.href = "index.html";
-  } else {
-    alert(res.message || "Invalid email or password");
-  }
-}
-
-async function register() {
-  const name = document.getElementById("register-name").value;
-  const email = document.getElementById("register-email").value;
-  const password = document.getElementById("register-password").value;
-
-  const res = await apiFetch("/auth/register", {
-    method: "POST",
-    body: JSON.stringify({ name, email, password })
-  });
-
-  if (res.success) {
-    alert("Register successful. Please login.");
-  } else {
-    alert(res.message || "Register failed");
-  }
-}
-
 // ================= CART =================
-function getCart() {
-  return JSON.parse(localStorage.getItem("cart")) || [];
-}
-
-function saveCart(cart) {
-  localStorage.setItem("cart", JSON.stringify(cart));
-}
-
 document.addEventListener("click", function (e) {
   const btn = e.target.closest(".add-to-cart");
   if (!btn) return;
 
   e.preventDefault();
 
-  const product = {
-    product: btn.dataset.id,
-    name: btn.dataset.name,
-    price: Number(btn.dataset.price),
-    image: btn.dataset.image,
-    quantity: 1
-  };
+  // 🔒 CHẶN SẢN PHẨM LỖI (BẮT BUỘC)
+  const id = btn.dataset.id;
+  const name = btn.dataset.name;
+  const price = Number(btn.dataset.price);
+  const stock = Number(btn.dataset.stock);
+  const image = btn.dataset.image;
+
+  if (!id || !name || !price || isNaN(stock) || stock <= 0) {
+    console.warn("Invalid product button:", btn);
+    alert("This product is invalid and cannot be added to cart");
+    return;
+  }
 
   let cart = getCart();
-  const existing = cart.find(i => i.product === product.product);
+  let existing = cart.find(i => i.productId === btn.dataset.id);
+
+  // ❌ ĐÃ TỒN TẠI & VƯỢT STOCK
+  if (existing && existing.quantity >= stock) {
+    alert("Cannot add more. Reached stock limit.");
+    return;
+  }
 
   if (existing) {
     existing.quantity += 1;
   } else {
-    cart.push(product);
+    cart.push({
+      productId: btn.dataset.id,
+      name: btn.dataset.name,
+      price: Number(btn.dataset.price),
+      image: btn.dataset.image,
+      stock: stock, // ⭐ LƯU STOCK
+      quantity: 1
+    });
   }
 
   saveCart(cart);
+  updateCartCount();
   alert("Added to cart");
 });
 
+
 // ================= SHOP PAGE =================
-async function loadProducts() {
+async function loadProducts(page = 1) {
   const listEl = document.getElementById("product-list");
+  const paginationEl = document.getElementById("pagination");
   if (!listEl) return;
 
   const params = new URLSearchParams(window.location.search);
 
-  const search = params.get("search");
-  const category = params.get("category");
-  const brand = params.get("brand");
-
-  let query = [];
-  if (search) query.push(`search=${encodeURIComponent(search)}`);
-  if (category) query.push(`category=${encodeURIComponent(category)}`);
-  if (brand) query.push(`brand=${encodeURIComponent(brand)}`);
-
-  const url = `/products${query.length ? "?" + query.join("&") : ""}`;
+  params.set("page", page);
+  params.set("limit", 15);
 
   try {
-    const res = await apiFetch(url);
-    const products = res.data || [];
+    const res = await apiFetch(`/products?${params.toString()}`);
 
-    listEl.innerHTML = products.map(p => `
-      <div class="col-sm-4">
-        <div class="product-image-wrapper">
-          <div class="single-products">
-            <div class="productinfo text-center">
-              <img src="${p.image || 'images/shop/product1.jpg'}" />
-              <h2>${p.price.toLocaleString()} VND</h2>
-              <p>${p.name}</p>
-              <a href="product-details.html?id=${p._id}" class="btn btn-default">
-                View details
-              </a>
-              <a href="#"
-                 class="btn btn-default add-to-cart"
-                 data-id="${p._id}"
-                 data-name="${p.name}"
-                 data-price="${p.price}"
-                 data-image="${p.image || 'images/shop/product1.jpg'}">
-                Add to cart
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    `).join("");
+    const { products, pagination } = res.data;
+
+    // render products
+    listEl.innerHTML = products.map(p => renderProductCard(p)).join("");
+
+    // render pagination
+    paginationEl.innerHTML = "";
+    for (let i = 1; i <= pagination.totalPages; i++) {
+      paginationEl.innerHTML += `
+        <li class="${i === pagination.page ? "active" : ""}">
+          <a href="#" onclick="changePage(${i})">${i}</a>
+        </li>
+      `;
+    }
 
   } catch (err) {
     console.error(err);
@@ -169,28 +134,10 @@ async function loadProducts() {
   }
 }
 
-// ================= PRODUCT DETAIL =================
-async function loadProductDetail() {
-  const params = new URLSearchParams(window.location.search);
-  const productId = params.get("id");
-  if (!productId) return;
-
-  try {
-    const res = await apiFetch(`/products/${productId}`);
-    if (!res.success) throw new Error();
-
-    const p = res.data;
-
-    document.getElementById("product-name").innerText = p.name;
-    document.getElementById("product-price").innerText =
-      p.price.toLocaleString() + " VND";
-    document.getElementById("product-brand").innerText = p.brand || "Unknown";
-    document.getElementById("product-image").src =
-      p.image || "images/shop/product1.jpg";
-  } catch {
-    alert("Cannot load product");
-  }
+function changePage(page) {
+  loadProducts(page);
 }
+
 
 // ================= ORDER =================
 async function createOrder() {
@@ -208,7 +155,7 @@ async function createOrder() {
   }
 
   const items = cart.map(i => ({
-    product: i.product,
+    product: i.productId,
     quantity: i.quantity,
     price: i.price
   }));
@@ -233,10 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
   loadProducts();            // shop.html
   loadFeaturedItems();       // index.html
   loadRecommendedItems();    // index.html
-
-  if (window.location.pathname.includes("product-details.html")) {
-    loadProductDetail();
-  }
+  loadCategoryTabs();        // index.html
 });
 
 // ================= HOME =================
@@ -247,19 +191,34 @@ function renderProductCard(p) {
         <div class="single-products">
           <div class="productinfo text-center">
             <img src="${p.image || 'images/shop/product1.jpg'}" />
+
             <h2>${p.price.toLocaleString()} VND</h2>
             <p>${p.name}</p>
+
             <a href="product-details.html?id=${p._id}" class="btn btn-default">
               View details
             </a>
-            <a href="#"
-               class="btn btn-default add-to-cart"
-               data-id="${p._id}"
-               data-name="${p.name}"
-               data-price="${p.price}"
-               data-image="${p.image || 'images/shop/product1.jpg'}">
-              Add to cart
-            </a>
+
+            ${
+              p.stock > 0
+                ? `
+                  <a href="#"
+                     class="btn btn-default add-to-cart"
+                     data-id="${p._id}"
+                     data-name="${p.name}"
+                     data-price="${p.price}"
+                     data-image="${p.image || 'images/shop/product1.jpg'}"
+                     data-stock="${p.stock}">
+                    Add to cart
+                  </a>
+                `
+                : `
+                  <button class="btn btn-default disabled" disabled>
+                    Out of stock
+                  </button>
+                `
+            }
+
           </div>
         </div>
       </div>
@@ -267,13 +226,14 @@ function renderProductCard(p) {
   `;
 }
 
+
 async function loadFeaturedItems() {
   const featureEl = document.getElementById("feature-list");
   if (!featureEl) return;
 
   try {
-    const res = await apiFetch("/products");
-    const products = res.data || [];
+    const res = await apiFetch("/products?limit=20");
+    const products = res.data.products || [];
 
     const featured = products.slice(0, 6);
 
@@ -291,10 +251,10 @@ async function loadRecommendedItems() {
   if (!recommendEl) return;
 
   try {
-    const res = await apiFetch("/products");
-    const products = res.data || [];
+    const res = await apiFetch("/products?limit=30");
+    const products = res.data.products || [];
 
-    const recommended = products.slice(0, 12); // 12 sản phẩm
+    const recommended = products.slice(0, 12);
 
     let html = "";
     for (let i = 0; i < recommended.length; i += 3) {
@@ -312,4 +272,124 @@ async function loadRecommendedItems() {
     console.error(err);
     recommendEl.innerHTML = "<p>Cannot load recommended products</p>";
   }
+}
+
+async function loadCategoryTabs() {
+  const res = await apiFetch("/products?limit=100");
+  const products = res.data.products || [];
+
+  const map = {
+    speaker: "tab-speaker",
+    amplifier: "tab-amplifier",
+    microphone: "tab-microphone",
+    "noise-filter": "tab-noise-filter",
+    accessories: "tab-accessories"
+  };
+
+  Object.entries(map).forEach(([category, elId]) => {
+    const el = document.getElementById(elId);
+    if (!el) return;
+
+    const items = products
+      .filter(p => p.category === category)
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .slice(0, 3);
+
+    el.innerHTML = items.length
+      ? items.map(p => renderProductCard(p)).join("")
+      : `<p class="text-center">No products</p>`;
+  });
+}
+
+
+function goAccount() {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    alert("You need to login first!!!");
+    window.location.href = "login.html";
+    return;
+  }
+  window.location.href = "account.html";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const loginLink = document.querySelector('a[href="login.html"].active');
+  const logoutLink = document.querySelector('a[onclick="logout()"]');
+
+  const isLoggedIn = !!localStorage.getItem("token");
+
+  if (loginLink) loginLink.parentElement.style.display = isLoggedIn ? "none" : "block";
+  if (logoutLink) logoutLink.parentElement.style.display = isLoggedIn ? "block" : "none";
+  if (typeof updateCartCount === "function") { updateCartCount(); }
+});
+
+// ================= CHATBOT LOGIC =================
+
+function toggleChat() {
+    const box = document.getElementById('chat-box');
+    const circle = document.getElementById('chat-circle');
+    
+    if (box.style.display === 'flex') {
+        box.style.display = 'none';
+        circle.style.display = 'flex';
+    } else {
+        box.style.display = 'flex';
+        circle.style.display = 'none'; // Ẩn nút tròn khi mở khung chat
+    }
+}
+
+// Xử lý khi nhấn Enter
+function handleChatEnter(e) {
+    if (e.key === "Enter") {
+        sendToGemini();
+    }
+}
+
+async function sendToGemini() {
+    const input = document.getElementById('user-msg');
+    const content = document.getElementById('chat-content');
+    const message = input.value.trim();
+
+    if (!message) return;
+
+    // 1. Hiển thị tin nhắn người dùng
+    content.innerHTML += `<div class="msg user-msg">${message}</div>`;
+    input.value = '';
+    content.scrollTop = content.scrollHeight; // Tự cuộn xuống dưới
+
+    // 2. Hiển thị trạng thái "Đang nhập..."
+    const loadingId = "loading-" + Date.now();
+    content.innerHTML += `<div id="${loadingId}" class="msg bot-msg">Thinking...</div>`;
+    content.scrollTop = content.scrollHeight;
+
+    try {
+        // --- SỬA LỖI PORT Ở ĐÂY ---
+        // Dùng API_BASE_URL (http://localhost:3000/api) thay vì gõ cứng port 5000
+        // Route của bạn là /chatbot/ask nên url sẽ là:
+        
+        const res = await fetch(`${API_BASE_URL}/chatbot/ask`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message })
+        });
+
+        const data = await res.json();
+        
+        // Xóa dòng "Thinking..."
+        document.getElementById(loadingId).remove();
+
+        // Hiển thị trả lời từ Bot
+        if (data.reply) {
+            content.innerHTML += `<div class="msg bot-msg">${data.reply}</div>`;
+        } else {
+            content.innerHTML += `<div class="msg error-msg">No response from server.</div>`;
+        }
+
+    } catch (err) {
+        console.error(err);
+        if(document.getElementById(loadingId)) document.getElementById(loadingId).remove();
+        content.innerHTML += `<div class="msg error-msg">Connection Error! Ensure backend is running on port 3000.</div>`;
+    }
+    
+    content.scrollTop = content.scrollHeight;
 }

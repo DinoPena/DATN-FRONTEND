@@ -8,10 +8,11 @@
 <body>
     <nav class="sidebar">
         <div class="logo-container">
-            <a href="index.html"><img src="images/home/logo.png" alt="Logo" onerror="this.src='https://via.placeholder.com/150x50?text=LOGO'"></a>
+            <a href="index.html"><img src="images/home/logo.png" alt="Logo"></a>
         </div>
         <div class="menu-btn active" onclick="showPage('info', this)">Information</div>
-        <div class="menu-btn" onclick="showPage('security', this)">Security</div>
+        <div class="menu-btn" onclick="showPage('orders', this)">Orders</div>
+        <div class="menu-btn" onclick="showPage('security', this)">Security</div>        
     </nav>
 
     <div class="main-container">
@@ -19,30 +20,55 @@
             <div id="info" class="page-section active">
                 <h2>Information</h2>
                 <div class="account-form">
-                    <div class="form-group-item"><label>Full Name</label><input type="text" value="Admin"></div>
-                    <div class="form-group-item"><label>Email</label><input type="email" value="admin@shop.com"></div>
-                    <button class="save-btn">Update</button>
+                    <div class="form-group-item">
+                        <label>Full Name</label>
+                        <input type="text" id="fullName">
+                    </div>
+
+                    <div class="form-group-item">
+                        <label>Email</label>
+                        <input type="email" id="email" disabled>
+                    </div>
+
+                    <button class="save-btn" onclick="updateInfo()">Update</button>
                 </div>
             </div>
+
 
             <div id="security" class="page-section">
                 <h2>Security</h2>
                 <div class="account-form">
-                    <div class="form-group-item"><label>New Password</label><input type="password"></div>
-                    <div class="form-group-item"><label>Confirm Password</label><input type="password"></div>
-                    <button class="save-btn">Change Password</button>
+                    <div class="form-group-item">
+                        <label>New Password</label>
+                        <input type="password" id="newPassword">
+                    </div>
+
+                    <div class="form-group-item">
+                        <label>Confirm Password</label>
+                        <input type="password" id="confirmPassword">
+                    </div>
+
+                    <button class="save-btn" onclick="changePassword()">Change Password</button>
+                </div>
+            </div>
+
+            <div id="orders" class="page-section">
+                <h2>Orders</h2>
+                <div class="form-group" id="order-list">
+                    <div id="orderList">Loading...</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
+    <!--<script>
         function showPage(id, btn) {
             document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         }
-    </script>
+    </script>-->
+    <script src="js/account.js"></script>
 </body>
 </html>

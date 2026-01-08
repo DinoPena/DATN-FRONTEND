@@ -25,10 +25,10 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="account.html"><i class="fa fa-user"></i> Account</a></li>
-								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-								<li><a href="login.html" class="active"><i class="fa fa-lock"></i> Login</a></li>
-								<li><a href="login.html" ><i class="fa fa-unlock"></i> Log Out</a></li>
+								<li><a href="#" onclick="goAccount()"><i class="fa fa-user"></i> Account</a></li>
+								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart(<span id="cart-count">0</span>)</a></li>
+								<li><a href="login.html"><i class="fa fa-lock"></i> Log In</a></li>
+								<li><a href="#" onclick="logout()"><i class="fa fa-unlock"></i> Log Out</a></li>
 							</ul>
 						</div>
 					</div>
@@ -126,41 +126,41 @@
 				
 				<div class="col-sm-9 padding-right">
 					<div class="product-details">
-          <div class="col-sm-5">
-            <div class="view-product">
-              <img id="product-image" src="" alt="">
-              <h3>ZOOM</h3>
-            </div>
-          </div>
+						<div class="col-sm-5">
+							<div class="view-product">
+							<img id="product-image" src="" alt="">
+							</div>
+						</div>
 
-          <div class="col-sm-7">
-            <div class="product-information">
-              <img src="images/product-details/new.jpg" class="newarrival" alt="">
-              <h2 id="product-name"></h2>
-              <img src="images/product-details/rating.png" alt="">
+						<div class="col-sm-7">
+							<div class="product-information">
+							<img src="images/product-details/new.jpg" class="newarrival" alt="">
+							<h2 id="product-name"></h2>
+							<img src="images/product-details/rating.png" alt="">
 
-              <span>
-                <span id="product-price"></span>
-                <label>Quantity:</label>
-                <input type="number" id="product-qty" value="1" min="1">
-              </span>
+							<div>
+								<p><b>Price:</b><span id="product-price"></span> </p>
+								<label>Quantity:</label>
+								<input type="number" id="product-qty" value="1" min="1">
+							</div>
 
-              <button type="button" class="btn btn-default cart" onclick="addToCartFromDetail()">
-                <i class="fa fa-shopping-cart"></i>
-                Add to cart
-              </button>
+							<p><b>Availability:</b><span id="product-stock"></span> </p>
+							<p><b>Condition:</b><span id="product-condition"></span> </p>
+							<p><b>Brand:</b> <span id="product-brand"></span></p>
+							<p><b>Category:</b> <span id="product-category"></span></p>
+							<p><b>Description:</b> <span id="product-description"></span></p>
 
-              <p><b>Availability:</b> In Stock</p>
-              <p><b>Condition:</b> New</p>
-              <p><b>Brand:</b> <span id="product-brand"></span></p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</section>
+							<button type="button" class="btn btn-fefault cart center" onclick="addToCartFromDetail()">
+								<i class="fa fa-shopping-cart"></i>
+								Add to cart
+							</button>
+							</div>							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 	
 	<footer id="footer"><!--Footer-->
 		<div class="footer-top">
@@ -184,9 +184,9 @@
 							<h2>Service</h2>
 							<ul class="nav nav-pills nav-stacked">
 								<li><a href="#">Online Help</a></li>
-								<li><a href="#">Contact Us</a></li>
-								<li><a href="#">Order</a></li>
-								<li><a href="#">FAQ’s</a></li>
+								<li><a href="contact-us.html">Contact Us</a></li>
+								<li><a href="#" onclick="goAccount()">Order</a></li>
+								<li><a href="contact-us.html">FAQ’s</a></li>
 							</ul>
 						</div>
 					</div>
@@ -194,11 +194,11 @@
 						<div class="single-widget">
 							<h2>Store</h2>
 							<ul class="nav nav-pills nav-stacked">
-								<li><a href="#">Speaker</a></li>
-								<li><a href="#">Micro</a></li>
-								<li><a href="#">Amplifier</a></li>
-								<li><a href="#">Noise Filter</a></li>
-								<li><a href="#">Accessories</a></li>
+								<li><a href="shop.html?category=speaker">Speaker</a></li>
+								<li><a href="shop.html?category=microphone">Micro</a></li>
+								<li><a href="shop.html?category=amplifier">Amplifier</a></li>
+								<li><a href="shop.html?category=noise-filter">Noise Filter</a></li>
+								<li><a href="shop.html?category=accessories">Accessories</a></li>
 							</ul>
 						</div>
 					</div>
@@ -220,18 +220,7 @@
 								<li><a href="#">Copyright</a></li>
 							</ul>
 						</div>
-					</div>
-					<div class="col-sm-3 col-sm-offset-1">
-						<div class="single-widget">
-							<h2>About Shopper</h2>
-							<form action="#" class="searchform">
-								<input type="text" placeholder="Your Email" />
-								<button type="submit" class="btn btn-default"><i class="fa fa-arrow-circle-o-right"></i></button>
-								<p>Get newest information about us <br />through email and get update faster</p>
-							</form>
-						</div>
-					</div>
-					
+					</div>					
 				</div>
 			</div>
 		</div>
@@ -240,83 +229,12 @@
 
   
     <script src="js/jquery.js"></script>
-	<script src="js/price-range.js"></script>
     <script src="js/jquery.scrollUp.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.prettyPhoto.js"></script>
-    <script src="js/main.js"></script>
-	<script>
-		let currentProduct = null;
-
-		// 🔒 CHẶN CHƯA LOGIN
-		if (!localStorage.getItem("token")) {
-			alert("Please login to view product details");
-			window.location.href = "login.html";
-		}
-
-		function getProductId() {
-			const params = new URLSearchParams(window.location.search);
-			return params.get("id");
-		}
-
-		async function loadProductDetail() {
-			const id = getProductId();
-			if (!id) {
-			alert("Product not found");
-			return;
-			}
-
-			try {
-			const res = await fetch(`http://localhost:3000/api/products/${id}`);
-			const product = await res.json();
-
-			if (!res.ok) {
-				alert(product.message || "Cannot load product");
-				return;
-			}
-
-			currentProduct = product;
-
-			document.getElementById("product-image").src =
-				product.image || "images/shop/product1.jpg";
-
-			document.getElementById("product-name").innerText = product.name;
-			document.getElementById("product-price").innerText =
-				product.price.toLocaleString() + " VND";
-			document.getElementById("product-brand").innerText =
-				product.brand || "Unknown";
-
-			} catch (err) {
-			alert("Server error");
-			}
-		}
-
-		function addToCartFromDetail() {
-			const qty = Number(document.getElementById("product-qty").value);
-
-			if (!currentProduct) return;
-
-			let cart = getCart();
-
-			const index = cart.findIndex(p => p._id === currentProduct._id);
-
-			if (index !== -1) {
-			cart[index].quantity += qty;
-			} else {
-			cart.push({
-				_id: currentProduct._id,
-				name: currentProduct.name,
-				price: currentProduct.price,
-				image: currentProduct.image || "images/shop/product1.jpg",
-				quantity: qty
-			});
-			}
-
-			saveCart(cart);
-			alert("Added to cart successfully");
-		}
-
-		document.addEventListener("DOMContentLoaded", loadProductDetail);
-	</script>
+    <script src="js/details.js"></script>
+	<script src="js/cart-utils.js"></script>
+	<script src="js/cart.js"></script>
+	<script src="js/main.js"></script>
 </body>
 </html>

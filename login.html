@@ -30,10 +30,10 @@
         <div class="col-sm-8">
           <div class="shop-menu pull-right">
             <ul class="nav navbar-nav">
-              <li><a href="account.html"><i class="fa fa-user"></i> Account</a></li>
-              <li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-              <li><a href="login.html" class="active"><i class="fa fa-lock"></i> Login</a></li>
-              <li><a href="login.html" ><i class="fa fa-unlock"></i> Log Out</a></li>
+              <li><a href="#" onclick="goAccount()"><i class="fa fa-user"></i> Account</a></li>
+              <li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart(<span id="cart-count">0</span>)</a></li>
+              <li><a href="login.html" class="active"><i class="fa fa-lock"></i> Log In</a></li>
+              <li><a href="#" onclick="logout()"><i class="fa fa-unlock"></i> Log Out</a></li>
             </ul>
           </div>
         </div>
@@ -70,9 +70,9 @@
 				<div class="col-sm-4 col-sm-offset-1">
 					<div class="login-form"><!--login form-->
 						<h2>Login to your account</h2>
-						<form action="#">
-							<input type="email" placeholder="Email" />
-							<input type="password" placeholder="Password" />
+						<form id="login-form">
+							<input type="email" id="login-email" placeholder="Email" required />
+							<input type="password" id="login-password" placeholder="Password" required />
 							<button type="submit" class="btn btn-default">Login</button>
 						</form>
 					</div><!--/login form-->
@@ -83,10 +83,10 @@
 				<div class="col-sm-4">
 					<div class="signup-form"><!--sign up form-->
 						<h2>New User Signup!</h2>
-						<form action="#">
-							<input type="text" placeholder="Name"/>
-							<input type="email" placeholder="Email Address"/>
-							<input type="password" placeholder="Password"/>
+						<form id="signup-form">
+							<input type="text" id="signup-name" placeholder="Name" required />
+							<input type="email" id="signup-email" placeholder="Email Address" required />
+							<input type="password" id="signup-password" placeholder="Password" required />
 							<button type="submit" class="btn btn-default">Signup</button>
 						</form>
 					</div><!--/sign up form-->
@@ -117,9 +117,9 @@
 							<h2>Service</h2>
 							<ul class="nav nav-pills nav-stacked">
 								<li><a href="#">Online Help</a></li>
-								<li><a href="#">Contact Us</a></li>
-								<li><a href="#">Order</a></li>
-								<li><a href="#">FAQ’s</a></li>
+								<li><a href="contact-us.html">Contact Us</a></li>
+								<li><a href="#" onclick="goAccount()">Order</a></li>
+								<li><a href="contact-us.html">FAQ’s</a></li>
 							</ul>
 						</div>
 					</div>
@@ -127,11 +127,11 @@
 						<div class="single-widget">
 							<h2>Store</h2>
 							<ul class="nav nav-pills nav-stacked">
-								<li><a href="#">Speaker</a></li>
-								<li><a href="#">Micro</a></li>
-								<li><a href="#">Amplifier</a></li>
-								<li><a href="#">Noise Filter</a></li>
-								<li><a href="#">Accessories</a></li>
+								<li><a href="shop.html?category=speaker">Speaker</a></li>
+								<li><a href="shop.html?category=microphone">Micro</a></li>
+								<li><a href="shop.html?category=amplifier">Amplifier</a></li>
+								<li><a href="shop.html?category=noise-filter">Noise Filter</a></li>
+								<li><a href="shop.html?category=accessories">Accessories</a></li>
 							</ul>
 						</div>
 					</div>
@@ -153,34 +153,18 @@
 								<li><a href="#">Copyright</a></li>
 							</ul>
 						</div>
-					</div>
-					<div class="col-sm-3 col-sm-offset-1">
-						<div class="single-widget">
-							<h2>About Shopper</h2>
-							<form action="#" class="searchform">
-								<input type="text" placeholder="Your Email" />
-								<button type="submit" class="btn btn-default"><i class="fa fa-arrow-circle-o-right"></i></button>
-								<p>Get newest information about us <br />through email and get update faster</p>
-							</form>
-						</div>
-					</div>
-					
+					</div>	
 				</div>
 			</div>
 		</div>
 	</footer><!--/Footer-->
   
     <script src="js/jquery.js"></script>
-	<script src="js/price-range.js"></script>
     <script src="js/jquery.scrollUp.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.prettyPhoto.js"></script>
+	<script src="js/cart-utils.js"></script>
     <script src="js/main.js"></script>
-	<script>
-		// nếu đã login thì không cho vào trang login
-		if (localStorage.getItem("token")) {
-			window.location.href = "index.html";
-		}
-	</script>
+	<script src="js/login.js"></script>
 </body>
 </html>
