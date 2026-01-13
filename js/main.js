@@ -325,71 +325,77 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // ================= CHATBOT LOGIC =================
 
+// Hàm đóng/mở khung chat
 function toggleChat() {
     const box = document.getElementById('chat-box');
     const circle = document.getElementById('chat-circle');
     
+    // Kiểm tra trạng thái hiện tại dựa trên style computed hoặc mặc định
     if (box.style.display === 'flex') {
         box.style.display = 'none';
         circle.style.display = 'flex';
     } else {
-        box.style.display = 'flex';
-        circle.style.display = 'none'; // Ẩn nút tròn khi mở khung chat
+        box.style.display = 'flex'; // Phải là flex để các thành phần con hiển thị đúng
+        circle.style.display = 'none';
+        
+        // Cuộn xuống đáy ngay khi mở khung chat để thấy tin mới nhất
+        scrollChatToBottom();
     }
+}
+
+// Hàm cuộn xuống dưới cùng
+function scrollChatToBottom() {
+    const chatContent = document.getElementById("chat-content");
+    // Sử dụng setTimeout để đảm bảo DOM đã render xong tin nhắn mới
+    setTimeout(() => {
+        chatContent.scrollTo({
+            top: chatContent.scrollHeight,
+            behavior: 'smooth' // Cuộn mượt mà hơn
+        });
+    }, 50);
 }
 
 // Xử lý khi nhấn Enter
 function handleChatEnter(e) {
     if (e.key === "Enter") {
-        sendToGemini();
+        sendMessage();
     }
 }
 
-async function sendToGemini() {
-    const input = document.getElementById('user-msg');
-    const content = document.getElementById('chat-content');
+function sendMessage() {
+    const input = document.getElementById("user-msg");
+    const chatContent = document.getElementById("chat-content");
     const message = input.value.trim();
 
     if (!message) return;
 
-    // 1. Hiển thị tin nhắn người dùng
-    content.innerHTML += `<div class="msg user-msg">${message}</div>`;
-    input.value = '';
-    content.scrollTop = content.scrollHeight; // Tự cuộn xuống dưới
+    // Tin nhắn của Người dùng
+    chatContent.innerHTML += `
+        <div class="msg user-msg">${message}</div>
+    `;
+    input.value = "";
+    scrollChatToBottom(); // Cuộn sau khi user gửi
 
-    // 2. Hiển thị trạng thái "Đang nhập..."
-    const loadingId = "loading-" + Date.now();
-    content.innerHTML += `<div id="${loadingId}" class="msg bot-msg">Thinking...</div>`;
-    content.scrollTop = content.scrollHeight;
-
-    try {
-        // --- SỬA LỖI PORT Ở ĐÂY ---
-        // Dùng API_BASE_URL (http://localhost:3000/api) thay vì gõ cứng port 5000
-        // Route của bạn là /chatbot/ask nên url sẽ là:
-        
-        const res = await fetch(`${API_BASE_URL}/chatbot/ask`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message })
-        });
-
-        const data = await res.json();
-        
-        // Xóa dòng "Thinking..."
-        document.getElementById(loadingId).remove();
-
-        // Hiển thị trả lời từ Bot
-        if (data.reply) {
-            content.innerHTML += `<div class="msg bot-msg">${data.reply}</div>`;
-        } else {
-            content.innerHTML += `<div class="msg error-msg">No response from server.</div>`;
-        }
-
-    } catch (err) {
-        console.error(err);
-        if(document.getElementById(loadingId)) document.getElementById(loadingId).remove();
-        content.innerHTML += `<div class="msg error-msg">Connection Error! Ensure backend is running on port 3000.</div>`;
-    }
-    
-    content.scrollTop = content.scrollHeight;
+    // Gửi đến server
+    fetch("http://localhost:3000/api/chatbot", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ message })
+    })
+    .then(res => res.json())
+    .then(data => {
+        // Tin nhắn của Bot
+        chatContent.innerHTML += `
+            <div class="msg bot-msg">${data.reply}</div>
+        `;
+        scrollChatToBottom(); // Cuộn sau khi bot trả lời
+    })
+    .catch(err => {
+        chatContent.innerHTML += `
+            <div class="msg error-msg">Server error. Please try again sau.</div>
+        `;
+        scrollChatToBottom();
+    });
 }

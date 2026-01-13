@@ -4413,6 +4413,7 @@ h2.title {
 /* Khu vực nội dung chat */
 #chat-content {
     flex: 1;
+    min-height: 0; 
     padding: 15px;
     overflow-y: auto;
     background: var(--chat-grey);
@@ -4479,5 +4480,23 @@ h2.title {
 }
 #chat-input-area button:hover { background: var(--chat-dark-orange); }
 
+/* Scrollbar cho chat content */
+#chat-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+#chat-content::-webkit-scrollbar-track {
+    background: #e0e0e0;
+    border-radius: 10px;
+}
+
+#chat-content::-webkit-scrollbar-thumb {
+    background: var(--chat-orange);
+    border-radius: 10px;
+}
+
+#chat-content::-webkit-scrollbar-thumb:hover {
+    background: var(--chat-dark-orange);
+}
 
 
