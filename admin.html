@@ -8,7 +8,7 @@
 <body>
     <nav class="sidebar">
         <div class="logo-container">
-            <a href="index.html"><img src="images/home/logo.png" alt="Logo" onerror="this.src='https://via.placeholder.com/150x50?text=LOGO'"></a>
+            <a href="index.html"><img src="images/home/logo.png" alt="Logo"></a>
         </div>
         <div class="menu-btn active" onclick="showPage('overview', this)">OVERVIEW</div>
         <div class="menu-btn" onclick="showPage('product', this)">PRODUCT</div>
@@ -24,7 +24,7 @@
                 <span class="username">admin ▼</span>
                 <div id="myDropdown" class="dropdown-content">
                     <a href="account.html">My Profile</a>
-                    <a href="#" onclick="alert('Signed out')"><i class="fa fa-unlock"></i>Sign out</a>
+                    <a href="#" onclick="logout1(event)"><i class="fa fa-unlock"></i>Sign out</a>
                 </div>
             </div>
         </header>
@@ -56,10 +56,11 @@
 
                     <input type="text" id="name" placeholder="Product Name">
                     <input type="text" id="category" placeholder="Category">
-                    <input type="text" id="brand" placeholder="Brand">
+                    <input type="text" id="brand" placeholder="Brand">                    
                     <input type="number" id="stock" placeholder="Stock">
                     <input type="number" id="price" placeholder="Price">
                     <input type="text" id="image" placeholder="Image link">
+                    <textarea id="description" placeholder="Description" rows="3"></textarea>
                     <img id="imagePreview" src="" alt="Preview" style="display:none;margin-top:8px;width:120px;height:120px;object-fit:cover;border:1px solid #ccc;">
                     <button class="action-btn" id="submitBtn">Add Product</button>
                 </div>
@@ -70,6 +71,7 @@
                             <th>Name</th>
                             <th>Category</th>
                             <th>Brand</th>
+                            <th>Description</th>
                             <th>Stock</th>
                             <th>Price</th>
                             <th>Image</th>
@@ -77,7 +79,6 @@
                         </tr>
                     </thead>
                     <tbody id="productTableBody">
-                        <!-- JS render -->
                     </tbody>
                 </table>
             </div>
@@ -96,7 +97,6 @@
                     </tr>
                     </thead>
                     <tbody id="orderTableBody">
-                    <!-- JS render -->
                     </tbody>
                 </table>
             </div>

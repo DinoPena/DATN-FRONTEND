@@ -38,6 +38,14 @@ async function fetchProducts() {
           <td>${product.name}</td>
           <td>${product.category}</td>
           <td>${product.brand}</td>
+          <td style="
+            max-width:250px;
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            "title="${product.description || ""}">
+            ${product.description || "-"}
+          </td>
           <td>${product.stock}</td>
           <td>${product.price.toLocaleString()} VND</td>
           <td>
@@ -85,6 +93,7 @@ document.getElementById("submitBtn").addEventListener("click", async () => {
     name: document.getElementById("name").value.trim(),
     category: document.getElementById("category").value.trim(),
     brand: document.getElementById("brand").value.trim(),
+    description: document.getElementById("description").value.trim(),
     stock: Number(document.getElementById("stock").value),
     price: Number(document.getElementById("price").value),
     image: document.getElementById("image").value.trim()
@@ -140,6 +149,7 @@ async function editProduct(id) {
     document.getElementById("name").value = product.name;
     document.getElementById("category").value = product.category;
     document.getElementById("brand").value = product.brand;
+    document.getElementById("description").value = product.description || "";
     document.getElementById("stock").value = product.stock;
     document.getElementById("price").value = product.price;
     document.getElementById("image").value = product.image || "";
@@ -203,6 +213,7 @@ function clearForm() {
   document.getElementById("name").value = "";
   document.getElementById("category").value = "";
   document.getElementById("brand").value = "";
+  document.getElementById("description").value = "";
   document.getElementById("stock").value = "";
   document.getElementById("price").value = "";
   document.getElementById("image").value = "";
@@ -470,7 +481,7 @@ async function toggleUserStatus(userId) {
       return;
     }
 
-    fetchUsers();
+    fetchAccounts();
   } catch (err) {
     console.error(err);
     alert("Server error");
@@ -587,6 +598,8 @@ async function fetchMessages() {
 }
 
 fetchMessages();
+
+
 
 
 

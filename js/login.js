@@ -34,8 +34,7 @@ document.getElementById("login-form").addEventListener("submit", async function 
       alert(result.message || "Login failed");
       return;
     }
-
-    // ✅ LƯU TOKEN
+    
     localStorage.setItem("token", result.data.token);
     localStorage.setItem("user", JSON.stringify(result.data.user));
 
@@ -101,6 +100,5 @@ function logout() {
   }
 }
 
-// expose cho HTML
 window.logout = logout;
 

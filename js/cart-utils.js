@@ -15,7 +15,6 @@ function updateCartCount() {
   if (el) el.innerText = count;
 }
 
-// expose global
 window.getCart = getCart;
 window.saveCart = saveCart;
 window.updateCartCount = updateCartCount;

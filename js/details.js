@@ -110,5 +110,4 @@ function addToCartFromDetail() {
 // ================== INIT ==================
 document.addEventListener("DOMContentLoaded", loadProductDetail);
 
-// ⚠️ BẮT BUỘC: expose function cho HTML onclick
 window.addToCartFromDetail = addToCartFromDetail;

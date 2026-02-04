@@ -160,6 +160,25 @@
 				</div>
 			</div>
 		</div>
+		<div id="chat-circle" onclick="toggleChat()">
+			<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+		</div>
+
+		<div id="chat-box">
+			<div id="chat-header">
+				<span>Customer Support</span>
+				<span onclick="toggleChat()" style="cursor:pointer; font-size:18px;">✖</span>
+			</div>
+			
+			<div id="chat-content">
+				<div class="msg bot-msg">Hello! 👋 How can I help you today?</div>
+			</div>
+			
+			<div id="chat-input-area">
+				<input type="text" id="user-msg" placeholder="Type a message..." onkeypress="handleChatEnter(event)">
+				<button onclick="sendMessage()">Send</button>
+			</div>
+		</div>
 	</section>
 	
 	<footer id="footer"><!--Footer-->

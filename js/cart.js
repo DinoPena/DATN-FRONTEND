@@ -1,4 +1,3 @@
-// ================= INIT =================
 document.addEventListener("DOMContentLoaded", renderCart);
 
 // ================= RENDER CART =================
@@ -161,8 +160,6 @@ async function checkout() {
   renderCart();
 }
 
-
-// expose cho HTML
 window.updateQty = updateQty;
 window.removeItem = removeItem;
 window.checkout = checkout;

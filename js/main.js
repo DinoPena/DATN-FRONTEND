@@ -15,6 +15,15 @@ function logout() {
   window.location.href = "login.html";
 }
 
+function logout1(e) {
+  e.preventDefault();
+
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+
+  window.location.href = "login.html";
+}
+
 // ================= API HELPER =================
 async function apiFetch(url, options = {}) {
   const headers = { "Content-Type": "application/json" };
@@ -30,7 +39,7 @@ async function apiFetch(url, options = {}) {
     alert("Tài khoản đã bị khóa");
     localStorage.clear();
     window.location.href = "login.html";
-    throw new Error("ACCOUNT_BLOCKED"); // ✅ QUAN TRỌNG
+    throw new Error("ACCOUNT_BLOCKED");
   }
 
   if (!res.ok) {
@@ -58,7 +67,6 @@ document.addEventListener("click", function (e) {
 
   e.preventDefault();
 
-  // 🔒 CHẶN SẢN PHẨM LỖI (BẮT BUỘC)
   const id = btn.dataset.id;
   const name = btn.dataset.name;
   const price = Number(btn.dataset.price);
@@ -74,7 +82,6 @@ document.addEventListener("click", function (e) {
   let cart = getCart();
   let existing = cart.find(i => i.productId === btn.dataset.id);
 
-  // ❌ ĐÃ TỒN TẠI & VƯỢT STOCK
   if (existing && existing.quantity >= stock) {
     alert("Cannot add more. Reached stock limit.");
     return;
@@ -88,7 +95,7 @@ document.addEventListener("click", function (e) {
       name: btn.dataset.name,
       price: Number(btn.dataset.price),
       image: btn.dataset.image,
-      stock: stock, // ⭐ LƯU STOCK
+      stock: stock,
       quantity: 1
     });
   }
@@ -177,10 +184,10 @@ async function createOrder() {
 
 // ================= INIT =================
 document.addEventListener("DOMContentLoaded", () => {
-  loadProducts();            // shop.html
-  loadFeaturedItems();       // index.html
-  loadRecommendedItems();    // index.html
-  loadCategoryTabs();        // index.html
+  loadProducts();            
+  loadFeaturedItems();       
+  loadRecommendedItems();    
+  loadCategoryTabs();        
 });
 
 // ================= HOME =================
@@ -325,37 +332,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // ================= CHATBOT LOGIC =================
 
-// Hàm đóng/mở khung chat
 function toggleChat() {
     const box = document.getElementById('chat-box');
     const circle = document.getElementById('chat-circle');
     
-    // Kiểm tra trạng thái hiện tại dựa trên style computed hoặc mặc định
     if (box.style.display === 'flex') {
         box.style.display = 'none';
         circle.style.display = 'flex';
     } else {
-        box.style.display = 'flex'; // Phải là flex để các thành phần con hiển thị đúng
+        box.style.display = 'flex'; 
         circle.style.display = 'none';
-        
-        // Cuộn xuống đáy ngay khi mở khung chat để thấy tin mới nhất
+
         scrollChatToBottom();
     }
 }
 
-// Hàm cuộn xuống dưới cùng
+
 function scrollChatToBottom() {
     const chatContent = document.getElementById("chat-content");
-    // Sử dụng setTimeout để đảm bảo DOM đã render xong tin nhắn mới
     setTimeout(() => {
         chatContent.scrollTo({
             top: chatContent.scrollHeight,
-            behavior: 'smooth' // Cuộn mượt mà hơn
+            behavior: 'smooth'
         });
     }, 50);
 }
 
-// Xử lý khi nhấn Enter
 function handleChatEnter(e) {
     if (e.key === "Enter") {
         sendMessage();
@@ -369,14 +371,12 @@ function sendMessage() {
 
     if (!message) return;
 
-    // Tin nhắn của Người dùng
     chatContent.innerHTML += `
         <div class="msg user-msg">${message}</div>
     `;
     input.value = "";
-    scrollChatToBottom(); // Cuộn sau khi user gửi
+    scrollChatToBottom(); 
 
-    // Gửi đến server
     fetch("http://localhost:3000/api/chatbot", {
         method: "POST",
         headers: {
@@ -386,11 +386,10 @@ function sendMessage() {
     })
     .then(res => res.json())
     .then(data => {
-        // Tin nhắn của Bot
         chatContent.innerHTML += `
             <div class="msg bot-msg">${data.reply}</div>
         `;
-        scrollChatToBottom(); // Cuộn sau khi bot trả lời
+        scrollChatToBottom();
     })
     .catch(err => {
         chatContent.innerHTML += `
